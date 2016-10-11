@@ -48,6 +48,13 @@ class assign_role_cohort extends moodleform {
         $mform = $this->_form;
         $userroles = get_roles_for_contextlevels(CONTEXT_USER);
         $sysroles = get_all_roles();
+        $removeroles = array('user', 'guest');
+        foreach ($sysroles as $sid => $role) {
+            // Remove a few roles from the list that make no sense in using and could cause performance issues.
+            if (in_array($role->shortname, $removeroles)) {
+                unset($sysroles[$sid]);
+            }
+        }
         $names = role_get_names();
 
         if (empty($userroles)) {
