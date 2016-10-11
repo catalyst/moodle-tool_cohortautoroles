@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace tool_cohortautoroles\task;
+defined('MOODLE_INTERNAL') || die();
 
 use core\task\scheduled_task;
 use tool_cohortautoroles\api;

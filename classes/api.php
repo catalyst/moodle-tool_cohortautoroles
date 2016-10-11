@@ -22,6 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace tool_cohortautoroles;
+defined('MOODLE_INTERNAL') || die();
 
 use stdClass;
 use context_system;
@@ -167,7 +168,7 @@ class api {
             $params['sysroleid'] = $cra->get_sysroleid();
             $params['component'] = 'tool_cohortautoroles';
 
-            $sql = 'SELECT '.$DB->sql_concat('u2.id','cm2.cohortid', 'mentors.userid') // Make first column unique.
+            $sql = 'SELECT '.$DB->sql_concat('u2.id', 'cm2.cohortid', 'mentors.userid') // Make first column unique.
                 .',u2.id as userid, cm2.cohortid as cohortid, mentors.userid as mentorid, ctx.id as contextid, ra.id as roleassign
                       FROM {user} u2
                       JOIN {context} ctx on u2.id = ctx.instanceid AND ctx.contextlevel = :usercontext
@@ -175,9 +176,11 @@ class api {
                       JOIN (SELECT u.id as userid, cm.cohortid
                               FROM {user} u
                               JOIN {cohort_members} cm ON u.id = cm.userid AND cm.cohortid '. $cohortsql. '
-                              JOIN {role_assignments} sysra ON sysra.roleid = :sysroleid and u.id = sysra.userid) mentors 
+                              JOIN {role_assignments} sysra ON sysra.roleid = :sysroleid and u.id = sysra.userid) mentors
                                    ON mentors.cohortid = cm2.cohortid
-                      LEFT JOIN {role_assignments} ra ON ra.contextid = ctx.id AND ra.roleid = :roleid and ra.userid = mentors.userid AND ra.component = :component
+                      LEFT JOIN {role_assignments} ra ON ra.contextid = ctx.id
+                                                     AND ra.roleid = :roleid and ra.userid = mentors.userid
+                                                     AND ra.component = :component
                       WHERE ra.id IS NULL';
             $toadd = $DB->get_records_sql($sql, $params);
 
@@ -205,8 +208,9 @@ class api {
             $params['sysroleid'] = $cra->get_sysroleid();
             $params['component'] = 'tool_cohortautoroles';
 
-            $sql = 'SELECT '.$DB->sql_concat('u2.id','cm2.cohortid', 'ctx.id', 'ra.userid') // Make first column unique.
-                         . ',u2.id as userid, cm2.cohortid as cohortid, ctx.id as contextid, ra.userid as mentorid, mentors.userid as mentoridset
+            $sql = 'SELECT '.$DB->sql_concat('u2.id', 'cm2.cohortid', 'ctx.id', 'ra.userid') // Make first column unique.
+                         . ', u2.id as userid, cm2.cohortid as cohortid, ctx.id as contextid
+                            , ra.userid as mentorid, mentors.userid as mentoridset
                       FROM {user} u2
                       JOIN {context} ctx on u2.id = ctx.instanceid AND ctx.contextlevel = :usercontext
                       JOIN {cohort_members} cm2 ON u2.id = cm2.userid AND cm2.cohortid '. $cohortsql .'
@@ -214,7 +218,8 @@ class api {
                  LEFT JOIN (SELECT u.id as userid, cm.cohortid
                             FROM {user} u
                             JOIN {cohort_members} cm ON u.id = cm.userid AND cm.cohortid '. $cohortsql2 . '
-                            JOIN {role_assignments} sysra ON sysra.roleid = :sysroleid and u.id = sysra.userid) mentors ON mentors.userid = ra.userid
+                            JOIN {role_assignments} sysra ON sysra.roleid = :sysroleid AND u.id = sysra.userid) mentors
+                                 ON mentors.userid = ra.userid
                      WHERE mentors.userid IS NULL';
             $toremove = $DB->get_records_sql($sql, $params);
             foreach ($toremove as $remove) {
