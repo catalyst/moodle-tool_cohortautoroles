@@ -29,7 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy Subsystem for tool_cohortautoroles.
  *
- * @copyright  2019 David Thompson <david.thompson@catalyst.net.nz>
+ * @copyright  Catalyst IT
+ * @author     2019 David Thompson <david.thompson@catalyst.net.nz>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {
