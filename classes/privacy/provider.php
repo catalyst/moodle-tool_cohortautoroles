@@ -22,15 +22,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace tool_cohortautoroles\privacy;
+
 defined('MOODLE_INTERNAL') || die();
 
-
-$plugin->version   = 2019071500; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2016051900; // Requires this Moodle version.
-$plugin->component = 'tool_cohortautoroles'; // Full name of the plugin (used for diagnostics).
-$plugin->maturity = MATURITY_STABLE;
-$plugin->release = "1";
-
-$plugin->dependencies = array(
-    'tool_lp' => ANY_VERSION
-);
+/**
+ * Privacy Subsystem for tool_cohortautoroles.
+ *
+ * @copyright  2019 David Thompson <david.thompson@catalyst.net.nz>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class provider implements \core_privacy\local\metadata\null_provider {
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
+};
