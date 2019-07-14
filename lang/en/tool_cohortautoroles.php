@@ -43,3 +43,4 @@ $string['selectsysrole'] = 'Select role to identify the mentors';
 $string['taskname'] = 'Sync cohort auto role assignments';
 $string['thisuserroles'] = 'Roles assigned relative to this user';
 $string['sysrole'] = 'System Role used to identify mentors';
+$string['privacy:metadata'] = 'The Cohort auto roles plugin does not store any personal data.';
