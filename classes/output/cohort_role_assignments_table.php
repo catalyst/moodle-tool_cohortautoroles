@@ -102,11 +102,12 @@ class cohort_role_assignments_table extends table_sql {
             'idnumber' => $data->cohortidnumber,
             'description' => $data->cohortdescription,
             'visible' => $data->cohortvisible,
-            'name' => $data->cohortname
+            'name' => $data->cohortname,
+            'theme' => null
         );
         $context = context_helper::instance_by_id($data->cohortcontextid);
 
-        $exporter = new \tool_lp\external\cohort_summary_exporter($record, array('context' => $context));
+        $exporter = new \core_cohort\external\cohort_summary_exporter($record, array('context' => $context));
         $cohort = $exporter->export($OUTPUT);
 
         $html = $OUTPUT->render_from_template('tool_cohortautoroles/cohort-in-list', $cohort);
