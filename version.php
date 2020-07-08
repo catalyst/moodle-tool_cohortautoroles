@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 
 $plugin->version   = 2020070700; // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires  = 2016051900; // Requires this Moodle version.
+$plugin->requires  = 2018051700; // Requires this Moodle version.
 $plugin->component = 'tool_cohortautoroles'; // Full name of the plugin (used for diagnostics).
 $plugin->maturity = MATURITY_STABLE;
 $plugin->release = "1";
